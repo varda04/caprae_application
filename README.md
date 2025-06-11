@@ -9,4 +9,6 @@ Choosing the quality first track was my original approach because I assessed the
 
 I had many more ideas such as adding a mail template and allowing mailing the validated mail ids, but considering the 5 hour cap, I implemented little of what I could come up with and cut corners in doing so.
 
+Here's the link to the video demo: https://drive.google.com/file/d/1GKk8A6BzLCSTKVE32-XZBxoXRT7zfV2g/view?usp=sharing
+
 Thank you for this opportunity, I got the chance to learn a lot from this! :)
