@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IndiReach</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-text {
+            max-height: 4.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .no-results {
+            font-size: 1.1rem;
+        }
+
+        body {
+            background: #f8f9fa;
+        }
+
+        .form-section {
+            background: #ffffff;
+            border-radius: 0.75rem;
+        }
+
+        .job-card {
+            transition: transform 0.2s ease;
+        }
+
+        .job-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .view-btn {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-4 display-6 fw-bold">IndiReach</h1>
+
+        <!-- Search Form -->
+        <form method="POST" class="form-section p-4 shadow-sm mb-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-5">
+                    <input type="text" name="keyword" class="form-control" placeholder="Keyword (e.g. Python Developer)" value="{{ keyword }}" required>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="location" class="form-control" placeholder="Location (e.g. Bangalore)" value="{{ location }}" required>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+        {% if jobs %}
+        <form method="POST" action="/know_more_bulk">
+            <div class="row">
+                {% for job in jobs %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm job-card border-0">
+                        <div class="card-body">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="selected_jobs" id="job{{ loop.index }}" value="{{ job['company'] }}||{{ job['location'] }}">
+                                <label class="form-check-label" for="job{{ loop.index }}">
+                                    Select
+                                </label>
+                            </div>
+                            <h5 class="card-title">{{ job['title'] }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ job['company'] }} | {{ job['location'] }}</h6>
+                            <p class="card-text">{{ job['summary'] }}</p>
+                            {% if job['link'] %}
+                            <a href="{{ job['link'] }}" class="btn btn-sm btn-outline-primary view-btn" target="_blank">View Job</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">Enhance</button>
+            </div>
+        </form>
+        {% elif keyword and location %}
+        <div class="alert alert-warning text-center no-results">
+            😕 No jobs found for <strong>"{{ keyword }}"</strong> in <strong>"{{ location }}"</strong>.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
